@@ -3,6 +3,11 @@ const indexRoutes = require("./routes/index.routes");
 
 const app = express();
 
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+
+app.use(express.static(__dirname + "/public"));
+
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
 // parse application/json
