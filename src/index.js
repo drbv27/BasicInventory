@@ -1,5 +1,6 @@
 const express = require("express");
 const indexRoutes = require("./routes/index.routes");
+const indexProductos = require("./routes/Productos.routes");
 
 const app = express();
 
@@ -31,7 +32,7 @@ mongoose
   .then(() => console.log("Base de datos conectada"))
   .catch((e) => console.log(e));
 
-app.use(indexRoutes);
+app.use("/", indexRoutes);
 
 app.listen(port, () => {
   console.log("Servidor listo en el puerto: ", port);
