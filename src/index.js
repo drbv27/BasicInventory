@@ -20,15 +20,11 @@ const port = process.env.PORT || 3002;
 
 //Conexión a base de Datos
 const mongoose = require("mongoose");
-const user = "mongoAdmin";
-const pass = "JRhQYppv7PvHmwSj";
-const dbname = "inventory";
 
 const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.mzxff.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
-/* const uri = `mongodb+srv://${user}:${pass}@cluster0.mzxff.mongodb.net/${dbname}?retryWrites=true&w=majority`; */
 
 mongoose
-  .connect(uri)
+  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Base de datos conectada"))
   .catch((e) => console.log(e));
 
