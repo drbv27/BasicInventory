@@ -1,0 +1,70 @@
+<%- include("template/cabecera",{tituloweb:"Detalle de Mascota"}) %>
+
+
+
+  <h2 class="text-center">Detalle Producto</h2>
+  <div class="container">
+    <% if (error) { %>
+      <p>
+        <%= mensaje %>
+      </p>
+      <a href="/productos" class="btn btn-dark btn-block">Regresar a Productos</a>
+      <% } %>
+        <% if (!error) { %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio COP</th>
+                <th scope="col">Precio USD</th>
+                <th scope="col">cantidad</th>
+                <th scope="col">Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <%= producto.nombre %>
+                </th>
+                <td>
+                  <%= producto.precio %>
+                </td>
+                <td>
+                  <%= producto.precioUSD %>
+                </td>
+                <td>
+                  <%= producto.cantidad %>
+                </td>
+                <td><a href="#" class="btn btn-danger btn-small text-white" id="btnEliminar"
+                    data-id="<%= producto.id %>"><i class="far fa-trash-alt"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <% } %>
+  </div>
+
+  <%- include("template/footer") %>
+
+    <script>
+      const btnEliminar = document.querySelector("#btnEliminar");
+      btnEliminar.addEventListener("click", async () => {
+        console.log("me diste click")
+        const id = btnEliminar.dataset.id
+        console.log("id", id)
+        try {
+          const data = await fetch(`/productos/${id}`, {
+            method: "delete"
+          })
+          const res = await data.json()
+          if (res.estado) {
+            window.location.href = "/productos"
+          } else {
+
+            console.log(res)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      })
+    </script>

@@ -1,18 +1,5 @@
 const express = require("express");
-const indexRoutes = require("./routes/index.routes");
-const indexProductos = require("./routes/Productos.routes");
-
 const app = express();
-
-// parse application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: false }));
-// parse application/json
-app.use(express.json());
-
-app.set("view engine", "ejs");
-app.set("views", __dirname + "/views");
-
-app.use(express.static(__dirname + "/public"));
 
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
@@ -33,7 +20,22 @@ mongoose
   .then(() => console.log("Base de datos conectada"))
   .catch((e) => console.log(e));
 
-app.use("/", indexRoutes);
+//motor de plantillas
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+
+app.use(express.static(__dirname + "/public"));
+
+//rutas web desde el router
+app.use("/", require("./routes/rutasWeb"));
+app.use("/productos", require("./routes/Productos.routes"));
+
+app.use((req, res, next) => {
+  res.status(404).render("404", {
+    titulo: "404",
+    descripcion: "recurso no encontrado",
+  });
+});
 
 app.listen(port, () => {
   console.log("Servidor listo en el puerto: ", port);

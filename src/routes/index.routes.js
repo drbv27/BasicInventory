@@ -87,6 +87,26 @@ router.post("/", async (req, res) => {
     console.log(error);
   }
 });
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const productoDB = await Producto.findOne({ _id: id });
+    console.log(productoDB);
+    res.send("Holaaaa");
+    /*     res.render("detalle", {
+      producto: productoDB,
+      error: false,
+    }); */
+  } catch (error) {
+    console.log(error);
+    res.render("detalle", {
+      error: true,
+      mensaje: "No se encuentra el producto",
+    });
+  }
+});
+
 router.use((req, res, next) => {
   res.status(404).render("404", {
     titulo: "404",

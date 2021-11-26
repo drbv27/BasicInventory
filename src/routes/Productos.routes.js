@@ -1,33 +1,115 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/productos", (req, res) => {
-  res.render("productos", {
-    arrayProductos: [
-      {
-        id: "kklnuuy",
-        nombre: "Lenovo Ideapad3",
-        procesador: "AMD Ryzen 4500u",
-        ram: "24GB",
-        hdd: "256 SSD",
-        precio: 2500000,
-        so: "Windows 11",
-        cantidad: 7,
-        Tipo: "Laptop",
-      },
-      {
-        id: "mlkhfsh",
-        nombre: "Lenovo Ideapad5",
-        procesador: "AMD Ryzen 4700u",
-        ram: "32GB",
-        hdd: "512 SSD",
-        precio: 4500000,
-        so: "Windows 11",
-        cantidad: 17,
-        Tipo: "Laptop",
-      },
-    ],
-  });
+const Producto = require("../models/producto");
+
+router.get("/", async (req, res) => {
+  try {
+    const arrayProductosDB = await Producto.find();
+    console.log(arrayProductosDB);
+
+    res.render("productos", {
+      arrayProductos: arrayProductosDB,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
+router.get("/crear", (req, res) => {
+  res.render("crear");
+});
+
+router.post("/", async (req, res) => {
+  const body = req.body;
+  try {
+    /* const mascotaDB = new Mascota(body);
+    await mascotaDB.save(); */
+
+    await Producto.create(body);
+
+    res.redirect("/productos");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const productoDB = await Producto.findOne({ _id: id });
+    console.log(productoDB);
+    res.render("detalle", {
+      producto: productoDB,
+      error: false,
+    });
+  } catch (error) {
+    console.log(error);
+    res.render("detalle", {
+      error: true,
+      mensaje: "No se encuentra el id seleccionado",
+    });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const productoDB = await Producto.findByIdAndDelete({ _id: id });
+    if (productoDB) {
+      res.json({
+        estado: true,
+        mensaje: "Eliminado!!!",
+      });
+    } else {
+      res.json({
+        estado: false,
+        mensaje: "Fallo Eliminar!!!",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  const id = req.params.id;
+  const body = req.body;
+  try {
+    const productoDB = await Producto.findByIdAndUpdate(id, body, {
+      useFindAndModify: false,
+    });
+    console.log(productoDB);
+    res.json({
+      estado: true,
+      mensaje: "Editado",
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      estado: false,
+      mensaje: "Fallo Editar",
+    });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const mascotaDB = await Producto.findByIdAndDelete({ _id: id });
+    if (mascotaDB) {
+      res.json({
+        estado: true,
+        mensaje: "eliminado correctamente",
+      });
+    } else {
+      res.json({
+        estado: false,
+        mensaje: "no se pudo eliminar",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
 module.exports = router;
