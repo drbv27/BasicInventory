@@ -1,40 +1,45 @@
 <%- include("template/cabecera",{tituloweb:"Pagina de Inicio"}) %>
+  <main class="flex-shrink-0">
+    <h2 class="text-center">Productos</h2>
+    <div class="container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio COP</th>
+            <th scope="col">Precio USD</th>
+            <th scope="col">cantidad</th>
+            <th scope="col">Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (arrayProductos.length>0) { %>
+            <% arrayProductos.forEach(producto=> { %>
+              <tr>
+                <th scope="row">
+                  <%= producto.nombre %>
+                </th>
+                <td>
+                  <%= producto.precio %>
+                </td>
+                <td>
+                  <%= producto.precioUSD %>
+                </td>
+                <td>
+                  <%= producto.cantidad %>
+                </td>
+                <td><a href="#" class="btn btn-dark text-white"><i class="far fa-edit"></i> / <i
+                      class="far fa-trash-alt"></i></a>
+                </td>
+              </tr>
+              <% }) %>
+                <% } %>
 
-  <div class="container">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">nombre</th>
-          <th scope="col">precio</th>
-          <th scope="col">cantidad</th>
-          <th scope="col">Accion</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% if (arrayProductos.length>0) { %>
-          <% arrayProductos.forEach(producto=> { %>
-            <tr>
-              <th scope="row">
-                <%= producto.id %>
-              </th>
-              <td>
-                <%= producto.nombre %>
-              </td>
-              <td>
-                <%= producto.precio %>
-              </td>
-              <td>@mdo</td>
-              <td><a href="#" class="btn btn-dark text-white"><i class="far fa-edit"></i> / <i
-                    class="far fa-trash-alt"></i></a>
-              </td>
-            </tr>
-            <% }) %>
-              <% } %>
+        </tbody>
+      </table>
 
-      </tbody>
-    </table>
+    </div>
+  </main>
 
-  </div>
 
   <%- include("template/footer") %>

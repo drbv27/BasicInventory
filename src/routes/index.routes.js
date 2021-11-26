@@ -71,7 +71,22 @@ router.get("/productos", async (req, res) => {
     ],
   }); */
 });
+router.get("/crear", (req, res) => {
+  res.render("crear");
+});
+router.post("/", async (req, res) => {
+  const body = req.body;
+  try {
+    /* const mascotaDB = new Mascota(body);
+    await mascotaDB.save(); */
 
+    await Producto.create(body);
+
+    res.redirect("/productos");
+  } catch (error) {
+    console.log(error);
+  }
+});
 router.use((req, res, next) => {
   res.status(404).render("404", {
     titulo: "404",

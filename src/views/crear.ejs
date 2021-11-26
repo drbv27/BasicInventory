@@ -1,0 +1,20 @@
+<%- include("template/cabecera",{tituloweb:"Pagina de Inicio"}) %>
+
+
+
+  <h2 class="text-center">Crear un Producto</h2>
+  <div class="container">
+    <form action="/" method="POST">
+      <input type="text" name="nombre" placeholder="Agrega un Nombre" class="form-control my-2">
+      <input type="number" name="precio" placeholder="Agrega un precio en COP" class="form-control my-2">
+      <input type="number" name="cantidad" placeholder="Agrega una cantidad" class="form-control my-2">
+      <input type="text" name="procesador" placeholder="Agrega un procesador" class="form-control my-2">
+      <input type="text" name="ram" placeholder="Agrega una RAM" class="form-control my-2">
+      <input type="text" name="hdd" placeholder="Agrega un Disco Duro" class="form-control my-2">
+      <input type="text" name="so" placeholder="Agrega un Sistema Operativo" class="form-control my-2">
+      <input type="text" name="deterioro" placeholder="Agrega un Deterioro" class="form-control my-2">
+      <button type="submit" class="btn btn-primary btn-block">Guardar <i class="fas fa-save"></i></button>
+    </form>
+  </div>
+
+  <%- include("template/footer") %>
