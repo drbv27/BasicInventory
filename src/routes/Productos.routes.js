@@ -92,24 +92,4 @@ router.put("/:id", async (req, res) => {
     });
   }
 });
-
-router.delete("/:id", async (req, res) => {
-  const id = req.params.id;
-  try {
-    const mascotaDB = await Producto.findByIdAndDelete({ _id: id });
-    if (mascotaDB) {
-      res.json({
-        estado: true,
-        mensaje: "eliminado correctamente",
-      });
-    } else {
-      res.json({
-        estado: false,
-        mensaje: "no se pudo eliminar",
-      });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
 module.exports = router;
