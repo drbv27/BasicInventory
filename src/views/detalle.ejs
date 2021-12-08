@@ -11,36 +11,24 @@
       <a href="/productos" class="btn btn-dark btn-block">Regresar a Productos</a>
       <% } %>
         <% if (!error) { %>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Precio COP</th>
-                <th scope="col">Precio USD</th>
-                <th scope="col">cantidad</th>
-                <th scope="col">Accion</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  <%= producto.nombre %>
-                </th>
-                <td>
-                  <%= producto.precio %>
-                </td>
-                <td>
-                  <%= producto.precioUSD %>
-                </td>
-                <td>
-                  <%= producto.cantidad %>
-                </td>
-                <td><a href="#" class="btn btn-danger btn-small text-white" id="btnEliminar"
-                    data-id="<%= producto.id %>"><i class="far fa-trash-alt"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <form id="formularioEditar" data-id="<%= producto.id %>">
+            <input type="text" class="form-control my-2" name="nombre" value="<%= producto.nombre%>" id="nombreInput">
+            <input type="text" class="form-control my-2" name="precio" value="<%= producto.precio%>" id="precioInput">
+            <input type="text" class="form-control my-2" name="cantidad" value="<%= producto.cantidad%>"
+              id="cantidadInput">
+            <input type="text" class="form-control my-2" name="procesador" value="<%= producto.procesador%>"
+              id="procesadorInput">
+            <input type="text" class="form-control my-2" name="ram" value="<%= producto.ram%>" id="ramInput">
+            <input type="text" class="form-control my-2" name="hdd" value="<%= producto.hdd%>" id="hddInput">
+            <input type="text" class="form-control my-2" name="so" value="<%= producto.so%>" id="soInput">
+            <input type="text" class="form-control my-2" name="deterioro" value="<%= producto.deterioro%>"
+              id="deterioroInput">
+            <button class="btn btn-warning btn-block" type="submit">Guardar Cambios</button>
+          </form>
+          <hr>
+          <button href="#" class="btn btn-danger btn-small text-white mt-5" id="btnEliminar"
+            data-id="<%= producto.id %>"><i class="far fa-trash-alt"></i></button>
+
           <% } %>
   </div>
 
@@ -61,6 +49,46 @@
             window.location.href = "/productos"
           } else {
 
+            console.log(res)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      })
+
+      const formularioEditar = document.querySelector("#formularioEditar")
+
+      formularioEditar.addEventListener("submit", async (e) => {
+        e.preventDefault()
+
+        const id = formularioEditar.dataset.id
+        const nombre = formularioEditar.querySelector("#nombreInput").value
+        const precio = formularioEditar.querySelector("#precioInput").value
+        const procesador = formularioEditar.querySelector("#procesadorInput").value
+        const ram = formularioEditar.querySelector("#ramInput").value
+        const hdd = formularioEditar.querySelector("#hddInput").value
+        const so = formularioEditar.querySelector("#soInput").value
+        const deterioro = formularioEditar.querySelector("#deterioroInput").value
+        const cantidad = formularioEditar.querySelector("#cantidadInput").value
+
+        try {
+          const data = await fetch(`/productos/${id}`, {
+            method: "put",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              nombre: nombre,
+              precio: precio,
+              procesador: procesador,
+              cantidad: cantidad
+            })
+          })
+          const res = await data.json()
+          console.log(res)
+          if (res.estado) {
+            window.location.href = "/productos"
+          } else {
             console.log(res)
           }
         } catch (error) {
